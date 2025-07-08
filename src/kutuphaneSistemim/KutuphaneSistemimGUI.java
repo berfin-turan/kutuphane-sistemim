@@ -35,11 +35,13 @@ import javax.swing.border.EmptyBorder;
 			//Pencere simgesi oluşturma
 			Image simge=Toolkit.getDefaultToolkit().getImage("simge.png");
 			jf.setIconImage(simge);
-			
+
+			//Menü paneli
 			jf.setLayout(new BorderLayout());
 			mpanel=new JPanel(new GridLayout(6,1,0,10));
 			mpanel.setBackground(new Color(139,69,19));
 			jf.add(mpanel,BorderLayout.WEST);
+
 			
 			panel1=new JPanel();
 			panel1.setBackground(new Color(139,69,19));
@@ -50,38 +52,58 @@ import javax.swing.border.EmptyBorder;
 			ImageIcon ıo=new ImageIcon("bt.png");
 			resim=new JLabel(ıo,JLabel.CENTER);
 			panel1.add(resim,"Menü");
-			 
+
+			//Kitap ekleme paneli
 			baslik=new JLabel("Kitap Ekleme",JLabel.CENTER);
 			panelEkle=new JPanel(new BorderLayout());
 			baslik.setFont(new Font("Arial",Font.BOLD,18));
 			panelEkle.add(baslik,BorderLayout.NORTH);
 			panelEkle.setBorder(new EmptyBorder(20, 20, 20, 20));
-
 			panelEkle.setBackground(new Color(139,69,19));
 			
-			formPanel=new JPanel(new GridLayout(3,2,0,150));
+			formPanel=new JPanel(new GridBagLayout());
 			formPanel.setBackground(new Color(139,69,19));
 			
-			kitapEkleText=new JLabel("Kitap Adı : ", SwingConstants.CENTER);
-			formPanel.add(kitapEkleText);
-			  
-			kitapAdField=new JTextField();
-			kitapAdField.setBackground(new Color(210, 180, 140) );
-			formPanel.add(kitapAdField);
+			GridBagConstraints gbc=new GridBagConstraints();
+			gbc.insets=new Insets(5,5,5,5);
 			
-			yazarEkleText=new JLabel("Yazar Adı : ", SwingConstants.CENTER);
-			formPanel.add(yazarEkleText);
+			gbc.gridx=0;//sol sütun
+			gbc.gridy=0;//en üst satır
+			gbc.anchor=GridBagConstraints.EAST;
+			formPanel.add(new JLabel("Kitap Adı: "),gbc);
 			
-			yazarAdField=new JTextField(); 
-			yazarAdField.setBackground(new Color(210, 180, 140) );
-			formPanel.add(yazarAdField);
+			gbc.gridx=1;
+			gbc.gridy=0;
+			gbc.anchor=GridBagConstraints.WEST;
+			kitapAdField=new JTextField(15);
+			kitapAdField.setBackground(new Color(210, 180, 140));
+			formPanel.add(kitapAdField,gbc);
 			
-			isbnEkleText=new JLabel("Isbn No : ", SwingConstants.CENTER);
-			formPanel.add(isbnEkleText);
 			
-			isbnField=new JTextField();
-			isbnField.setBackground(new Color(210, 180, 140) );
-			formPanel.add(isbnField);
+			gbc.gridx=0;//sol sütun
+			gbc.gridy=1;//en üst satır
+			gbc.anchor=GridBagConstraints.EAST;
+			formPanel.add(new JLabel("Yazar Adı: "),gbc);
+			
+			gbc.gridx=1;
+			gbc.gridy=1;
+			gbc.anchor=GridBagConstraints.WEST;
+			yazarAdField=new JTextField(15);
+			yazarAdField.setBackground(new Color(210, 180, 140));
+			formPanel.add(yazarAdField,gbc);
+			
+			
+			gbc.gridx=0;//sol sütun
+			gbc.gridy=2;//en üst satır
+			gbc.anchor=GridBagConstraints.EAST;
+			formPanel.add(new JLabel("ISBN no: "),gbc);
+			
+			gbc.gridx=1;
+			gbc.gridy=2;
+			gbc.anchor=GridBagConstraints.WEST;
+			isbnField=new JTextField(15);
+			isbnField.setBackground(new Color(210, 180, 140));
+			formPanel.add(isbnField,gbc);
 			
 			panelEkle.add(formPanel,BorderLayout.CENTER);
 			
@@ -97,42 +119,56 @@ import javax.swing.border.EmptyBorder;
 			
 			panel1.add(panelEkle,"ekle");
 
-			
+
+			//Kitap arama paneli
 			panelAra=new JPanel(new BorderLayout());
 			aramaBaslik=new JLabel("Kitap Arama",JLabel.CENTER);
 			aramaBaslik.setFont(new Font("Arial",Font.BOLD,18));
 			panelAra.add(aramaBaslik,BorderLayout.NORTH);
 			panelAra.setBackground(new Color(139,69,19));
 			
-			aramaPanel=new JPanel(new FlowLayout());
+			aramaPanel=new JPanel(new GridBagLayout());
 			aramaPanel.setBackground(new Color(139,69,19));
 			
+			GridBagConstraints b= new GridBagConstraints();
+			
+			b.gridx=0;
+			b.gridy=0;
+			b.insets=new Insets(5,5,5,5);
+			b.anchor=GridBagConstraints.EAST;
+			aramaPanel.add(new JLabel("Aranacak Kelime: "), b);
+			
+			b.gridx=1;
+			b.gridy=0;
 			araField=new JTextField(15);
 			araField.setBackground(new Color(210, 180, 140));
+			aramaPanel.add(araField,b);
+			
+			b.gridx=2;
+			b.gridy=0;
 			araButon=new JButton("Ara");
 			araButon.addActionListener(this);
 			araButon.setBackground(new Color(210, 180, 140));
-			
-			aramaPanel.add(new JLabel("Aranacak Kelime: "));
-			aramaPanel.add(araField);
-			aramaPanel.add(araButon);
+			aramaPanel.add(araButon,b);
 			
 			
 			panelAra.add(aramaPanel,BorderLayout.CENTER);
 			
-			aramaAlani=new JTextArea(23,30);//10 satir 30 karakterlik genişlik
+			aramaAlani=new JTextArea(20,20);//20 satir 20 karakterlik genişlik
 			aramaAlani.setEditable(false);
 			aramaAlani.setBackground(new Color(210, 180, 140));
 			aramaAlani.setFont(new Font("Arial",Font.PLAIN,14)); 
 			
 			scrollAra=new JScrollPane(aramaAlani);
+			scrollAra.setBorder(BorderFactory.createEmptyBorder(20,30,20,30));
+			scrollAra.setBackground(new Color(139,69,19));
 			panelAra.add(scrollAra,BorderLayout.SOUTH);
 			
 			
 			panel1.add(panelAra,"ara");
 		
 			
-			
+			//Kitap listeleme paneli
 			panelListele=new JPanel(new BorderLayout());
 			listeleBaslik=new JLabel("Kitap Listeleme",JLabel.CENTER);
 			panelListele.add(listeleBaslik,BorderLayout.NORTH);
@@ -149,28 +185,38 @@ import javax.swing.border.EmptyBorder;
 			
 			panel1.add(panelListele,"listele");
 			
-			
-			
-			
-			
+			//Kitap silme paneli
 			panelSil=new JPanel(new BorderLayout());
 			silmeBaslik=new JLabel("Kitap Silme",JLabel.CENTER);
 			panelSil.add(silmeBaslik,BorderLayout.NORTH);
 			silmeBaslik.setFont(new Font("Arial",Font.BOLD,18));
 			panelSil.setBackground(new Color(139,69,19));
 			
-			silmePanel=new JPanel(new FlowLayout());
+			silmePanel=new JPanel(new GridBagLayout());
 			silmePanel.setBackground(new Color(139,69,19));
 			
+			GridBagConstraints g=new GridBagConstraints();
+			
+			g.gridx=0;
+			g.gridy=0;
+			g.insets=new Insets(5,5,5,5);
+			g.anchor=GridBagConstraints.EAST;
+			silmePanel.add(new JLabel("Silinecek ISBN: "),g);
+			
+			
+			g.gridx=1;
+			g.gridy=0;
 			silmeField=new JTextField(15);
 			silmeField.setBackground(new Color(210, 180, 140));
+			silmePanel.add(silmeField,g);
+			
+			g.gridx=2;
+			g.gridy=0;
 			silmeButon=new JButton("Silme");
 			silmeButon.addActionListener(this);
 			silmeButon.setBackground(new Color(210, 180, 140));
+			silmePanel.add(silmeButon,g);
 			
-			silmePanel.add(new JLabel("Silinecek ISBN: "));
-			silmePanel.add(silmeField);
-			silmePanel.add(silmeButon);
 			panelSil.add(silmePanel,BorderLayout.CENTER);
 			panel1.add(panelSil,"sil");
 
@@ -308,8 +354,8 @@ import javax.swing.border.EmptyBorder;
 					p.println(k.toString());
 					JOptionPane.showMessageDialog(null,"Kitap başarıyla eklendi.");
 					kitapAdField.setText("");
-			        yazarAdField.setText("");
-			        isbnField.setText("");
+			       		yazarAdField.setText("");
+			        	isbnField.setText("");
 					
 				}catch(Exception a) {
 					JOptionPane.showMessageDialog(null,"Kitap ekleme sırasında hata oluştu:"+a.getStackTrace());
@@ -385,10 +431,10 @@ import javax.swing.border.EmptyBorder;
 				if(silinecekKitap != null) {
 					
 					int secim=JOptionPane.showConfirmDialog(null, "Silinecek kitap:\n"+
-																	"Ad: "+silinecekKitap.getKitapAd()+"\n"+
-																	"Yazar: "+silinecekKitap.getYazarAd()+"\n"+
-																	"ISBN: "+silinecekKitap.getIsbn()+"\n\n"+
-																	"Bu kitabı silmek istediğinize emin misiniz?","Silme Onayı",JOptionPane.YES_NO_OPTION);
+										"Ad: "+silinecekKitap.getKitapAd()+"\n"+
+										"Yazar: "+silinecekKitap.getYazarAd()+"\n"+
+										"ISBN: "+silinecekKitap.getIsbn()+"\n\n"+
+										"Bu kitabı silmek istediğinize emin misiniz?","Silme Onayı",JOptionPane.YES_NO_OPTION);
 					if(secim!=JOptionPane.YES_OPTION) {
 						JOptionPane.showMessageDialog(null, "Silme işlemi iptal edildi. ");
 						silmeField.setText("");
@@ -433,18 +479,3 @@ import javax.swing.border.EmptyBorder;
 
 				}
 				
-				
-				
-				
-				
-				
-				
-			}
-			
-			
-		}
-
-	}
-
-
-
